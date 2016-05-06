@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>General Infoormation</title>
+<h2>General Information</h2>
+<script type="text/javascript">
+	/* function addRow(tableID) {
+	 
+	   var table = document.getElementById(tableID);
+	   var rowCount = table.rows.length;
+	   var row = table.insertRow(rowCount);    
+	  	var colCount = table.rows[0].cells.length;
+	 	for(var i=0; i<colCount; i++) {
+	       var newcell = row.insertCell(i);
+	       newcell.innerHTML = table.rows[0].cells[i].innerHTML;
+	       newcell.innerHTML= " new cell1"
+	 	}
+	 } */
+
+	function addRowFunction() {
+		var table = document.getElementById("table1");
+		var rowCount = table.rows.length;
+		var row = table.insertRow(rowCount);
+		var cell1 = row.insertCell(0);
+		// var cell2 = row.insertCell(1);
+		cell1.innerHTML = "<html><body><h2>hello</h2></body></html>";
+		//cell1.innerHTML = "<input type='submit' value='Label' onclick='addLabel()'/><input type='submit' value='text' onclick='addTextFeild()'/>"
+		//cell1.innerHTML = "<input id='addRow' type='submit' class='addRow' value='Add Row' onclick='addRowFunction()'/>";
+		
+	}
+</script>
+<script type="text/javascript">
+	function deleteRow(tableID) {
+		var table = document.getElementById(tableID);
+		var rowCount = table.rows.length;
+		table.deleteRow();
+
+		/* for(var i=0; i<rowCount; i++) {
+		    
+		        if(rowCount <= 1) {
+		            alert("Cannot delete all the rows.");
+		            break;
+		        }
+		        table.deleteRow(i);
+		        rowCount--;
+		        i--;        
+		}       */
+	}
+</script>
+
+<script type="text/javascript">
+	function addCol() {
+		$('#addcol').click(function() {
+			$('#table1 tr').append($("<td>"));
+			$('#table1 thead tr>td:last').html($('#addcolname').val());
+			$('#table1 tbody tr').each(function() {
+			});
+		});
+	}
+</script>
+<link rel="stylesheet" href="css/bootstrap.css" type="text/css" />
+<link rel="stylesheet" href="css/bootstrap.min.css" type="text/css" />
+<link rel="stylesheet"
+	href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
+	
+</head>
+
+
+<body>
+	<div id="formSet1">
+		<div><p>Basic Information</p></div>
+		<table class="table">			
+			<thead><th></th><th>Name</th><th>BirthDay</th><th>Health/Smoke</th></thead>
+			<tbody>
+				<tr>
+					<td>Client A:</td><td><input type="text" ></td><td><input type="text" ></td><td><input type="text" ></td>
+				</tr>
+				<tr>
+					<td>Client B:</td><td><input type="text" ></td><td><input type="text" ></td><td><input type="text" ></td>
+				</tr>				
+			</tbody>
+		</table>		
+	</div>
+	<div id="formSet2">
+		<div><p>What do you feel is your most important:Personal Gole?, Financial Goal?</p></div>
+		<table class="table">			
+			<thead><th></th><th></th><th></th><th></th></thead>
+			<tbody>
+				<tr>
+					<td>Children:</td><td><input type="text" ></td><td><input type="text" ></td><td><input type="text" ></td>
+				</tr>
+				<tr>
+					<td>Children:</td><td><input type="text" ></td><td><input type="text" ></td><td><input type="text" ></td>
+				</tr>				
+			</tbody>
+		</table>		
+	</div>
+	<div id=formSet3>
+		<table id="table1" class="table">
+			<thead>
+				<th>text</th>
+			</thead>
+			<tbody>
+				<tr id="row1">
+					<td>Name:</td>
+					<td><input id="textName" type="text" value="name" /></td>
+				</tr>
+				<tr id="row2">
+					<td>Age :</td>
+					<td><input id="textAge" type="text" /></td>
+				</tr>
+				<tr id="row3">
+					<td>Gender :</td>
+					<td>&nbsp;<input id="radioMale" type="radio" name="gender"
+						value="Male">Male <input id="radioFemale" type="radio"
+						name="gender" value="Female"> Female
+					</td>
+				</tr>
+	
+	
+			</tbody>
+	
+		</table>
+		
+	</div>
+	
+	
+	<input id="table1Submit" type="submit" value="Submit" />
+	<input id="addRow" type="submit" class="addRow" value="Add Row"
+		onclick="addRowFunction()" />
+	<input id="deleteRow" type="submit" class="deleteRow"
+		value="Delete Row" onclick="deleteRow('table1')" />
+	<input id="addcolname" placeholder="Enter Heading" />
+	<input type="submit" id="addcol" value="Add Column" onclick="addCol()" />
+
+	<!--  <input id="addRow" type="submit" class="addRow" value="Add Row" onclick="addRow('table1')"/>-->
+	<!--  script src="js/jquery-2.2.3.min.js"></script>-->
+	<script src="js/jquery-sortable.js"></script>
+	<script
+		src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+	<script
+		src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+</body>
+</html>
+
+
