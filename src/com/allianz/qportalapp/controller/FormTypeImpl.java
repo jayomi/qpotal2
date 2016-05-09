@@ -54,7 +54,8 @@ public class FormTypeImpl {
 				
 				conn=dbservice.setConnection();
 				stmt=conn.createStatement();
-				String query="select form_id,form_name,form_description,department from qportal.main_form";
+				//String query="select form_id,form_name,form_description,department from qportal.main_form";
+				String query="SELECT * FROM qportal.main_form";
 				ResultSet rs=stmt.executeQuery(query);
 				
 				
@@ -62,10 +63,12 @@ public class FormTypeImpl {
 					
 					int id=rs.getInt("form_id");
 					String name=rs.getString("form_name");
-					String description=rs.getString("form_description");
-					String department=rs.getString("department");
+					String status=rs.getString("form_status");
+					//String description=rs.getString("form_description");
+					//String department=rs.getString("department");
 					
-					FormType formType=new FormType(id, name, description, department);
+					//FormType formType=new FormType(id, name, description, department);
+					FormType formType=new FormType(id, name, status);
 					formList.add(formType);										
 					
 				}

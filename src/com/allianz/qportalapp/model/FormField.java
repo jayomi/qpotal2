@@ -11,7 +11,9 @@ public class FormField {
 	private String fieldName;
 	private String fieldType;
 	private String isPredefineData;
+	//private String predefineValue[];
 	private String predefineValue;
+
 	
 	public FormField(int fieldID, int formID, int segmentID, String fieldName,
 			String fieldType,String isPredefineData) {
@@ -48,6 +50,11 @@ public class FormField {
 		this.fieldName = fieldName;
 		this.fieldType = fieldType;
 		this.isPredefineData = isPredefineData;
+	}
+
+	public FormField(String predefineValue) {
+		super();
+		this.predefineValue = predefineValue;
 	}
 
 
@@ -133,7 +140,8 @@ public class FormField {
 	public void setPredefineValue(String predefineValue) {
 		this.predefineValue = predefineValue;
 	}
-	
+
+
 	
 	
 	

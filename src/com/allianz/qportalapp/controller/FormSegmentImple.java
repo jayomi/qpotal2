@@ -21,7 +21,7 @@ public class FormSegmentImple {
 		
 		 FormSegment formSegment=new FormSegment(formId,segmentId,segmentLabel,segmentDescription);
 		 
-		 int segment_Id=0;
+		 int id=0;
 		 try {			
 				
 				System.out.println("inside form service service.....");				
@@ -45,9 +45,9 @@ public class FormSegmentImple {
 				}
 				
 				if(rowCount==0){
-					segment_Id=1;
+					id=1;
 				}else{
-					segment_Id=++rowCount;
+					id=++rowCount;
 				}
 				//..................................................................
 				/*String getmaxSegmentID="SELECT MAX(segment_id) FROM qportal.datasegment";				
@@ -58,7 +58,7 @@ public class FormSegmentImple {
 					System.out.println(maxSegmentValue);
 				}*/
 				//if(maxSegmentValue<segmentId){					
-					String query="INSERT INTO qportal.datasegment(form_id,segment_id,label,description) VALUES ('"+formId+"','"+segmentId+"','"+segmentLabel+"','"+segmentDescription+"')";
+					String query="INSERT INTO qportal.datasegment(id,form_id,segment_id,label,description) VALUES ('"+id+"','"+formId+"','"+segmentId+"','"+segmentLabel+"','"+segmentDescription+"')";
 					stmt.execute(query);					
 				//}
 				

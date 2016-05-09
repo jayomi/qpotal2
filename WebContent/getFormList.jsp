@@ -39,6 +39,7 @@
 			<td><%=ftype.getFormName() %></td>
 			<td><%=ftype.getFormDescription()%></td>
 			<td><%=ftype.getDepartment()%></td>
+			<td><%=ftype.getFormStatus()%></td>
 		</tr>
 			
 	<% FormSegmentImple formSegmentImple=new FormSegmentImple();
@@ -61,13 +62,57 @@
 	%>
 		
 		<tr style="background-color: pink;">
-			<td></td>
-			
+			<td></td>			
+			<td ><div class="datafield"><%=field.getFormID()%></div></td>
+			<td ><div class="datafield"><%=field.getSegmentID()%></div></td>
 			<td ><div class="datafield"><%=field.getFieldName() %></div></td>
 			<td ><div class="datafield"><%=field.getFieldType() %></div></td>
-			<td ><div class="datafield"><%=field.getPredefineValue()%></div></td>
-		</tr>
+			<td ><div class="datafield"><%=field.getIsPredefineData()%></div></td>			
+			<%-- <td ><div class="datafield"><%=field.getPredefineValue()%></div></td> --%>
+			
+			<td>
+				<% String qType=field.getFieldType();
+				if(qType.equalsIgnoreCase("textFeild")){%>
 					
+					<label><%=field.getPredefineValue()%></label>
+				<%}	%>
+				<% if(qType.equalsIgnoreCase("radioButton")){
+						String radioBtnValues=field.getPredefineValue();
+						String radioBtnArray[]=radioBtnValues.replaceAll("\\]|\\[|\"", "").split("\"?(:|,)(?![^\\{]*\\})\"?");
+						for(int r=0;r<radioBtnArray.length;r++){%>
+							<input type="radio" value="<%=radioBtnArray[r] %>" name="radioBtn"><%=radioBtnArray[r] %>
+						<%}
+				} %>
+				<% if(qType.equalsIgnoreCase("dropDown")){
+						String dropDownValues=field.getPredefineValue();
+						String dropDownArray[]=dropDownValues.replaceAll("\\]|\\[|\"", "").split("\"?(:|,)(?![^\\{]*\\})\"?");%>
+						<select name="dropDownList">
+						<%for(int d=0;d<dropDownArray.length;d++){%>
+							
+								<option value="<%=dropDownArray[d]%>"><%=dropDownArray[d]%></option>						
+							
+						<%} %>
+						</select>
+				<% } %>		
+				<% if(qType.equalsIgnoreCase("checkBox")){
+						String checkBoxValues=field.getPredefineValue();
+						String checkBoxArray[]=checkBoxValues.replaceAll("\\]|\\[|\"", "").split("\"?(:|,)(?![^\\{]*\\})\"?");%>
+						 <% for(int c=0;c<checkBoxArray.length;c++){%> 
+							<input type="checkbox" value="<%=checkBoxArray[c] %>" name="checkBoxBtn"><%=checkBoxArray[c] %>
+						<%}	%> 
+				<% }%>				
+					<%if(qType.equalsIgnoreCase("textArea")){
+							String textAreaValue=field.getPredefineValue();
+							String textArea[]=textAreaValue.replaceAll("\\]|\\[|\"", "").split("\"?(:|,)(?![^\\{]*\\})\"?");%>
+							<%-- <%for(int t=0;t<textArea.length;t++){%> --%>
+								<textarea rows="3" cols="20"></textarea>
+							<%-- <%} %> --%>
+					<%} %>
+				
+						
+			</td>
+		</tr>
+	
 					
 	<%} %> <!-- end of formField -->
 				

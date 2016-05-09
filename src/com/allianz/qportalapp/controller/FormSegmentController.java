@@ -2,6 +2,7 @@ package com.allianz.qportalapp.controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -10,6 +11,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
+import org.json.JSONArray;
 
 import com.sun.corba.se.impl.ior.WireObjectKeyTemplate;
 
@@ -35,51 +38,71 @@ public class FormSegmentController extends HttpServlet {
 		response.setContentType("text/html");
 		PrintWriter writer=response.getWriter();
 		
-		String segmentId[]=request.getParameterValues("segmentId");
-        String segmentName[]=request.getParameterValues("segmentName");
-        String segmentDescription[]=request.getParameterValues("segmentDescription");
-        
-        
-        String question_segmentId[]=request.getParameterValues("question_segmentId");
-        String questionName[]=request.getParameterValues("QuestionName");
-        String questionType[]=request.getParameterValues("questionType");
-        String isPredefine[]=request.getParameterValues("isPredefineValue");
-		
-        
-		Object formID=session.getAttribute( "formIndex" );
-		int formIndex=(int) formID;		
-		
-		
-		int segmentIdInt[] = new int[segmentId.length];int a=0;
-		int question_segmentIdInt[]=new int[question_segmentId.length];int b=0;
-        for(String stringSegmentId: segmentId){
-        	segmentIdInt[a++]=Integer.parseInt(stringSegmentId);    	
-        }for(String stringQuestionSegmentId:question_segmentId){
-        	question_segmentIdInt[b++]=Integer.parseInt(stringQuestionSegmentId);
-        }
-        
-        FormSegmentImple formSegmentImple=new FormSegmentImple();
-        FormFieldImpl formFieldImpl=new FormFieldImpl();       
-       
-		 for (int i=0;i<segmentId.length;i++){
-			
-			/*request.setAttribute("segmentID", segmentID);
-			request.setAttribute("segment_labelName", segmentlabelName);
-			request.setAttribute("segment_labelDescription", segmentlabelDescription);*/
-			
-			
-			formSegmentImple.addformSegment(formIndex, segmentIdInt[i], segmentName[i], segmentDescription[i]);
-			
-			//formSegmentImple.addformSegment(segmentID,segmentlabelName, segmentlabelDescription);
-			//requestDispatcher=request.getRequestDispatcher("second.jsp");
-			//requestDispatcher.forward(request, response);
-			
-		}
-		 for(int i=0;i<questionName.length;i++){
-			 formFieldImpl.addformField(formIndex,question_segmentIdInt[i], questionName[i], questionType[i], isPredefine[i]);	
-			 formFieldImpl.addformField(formIndex, question_segmentIdInt[i],  questionName[i], questionType[i], isPredefine[i]);
-		 }
 		 
+		Object formID=session.getAttribute( "formIndex" );
+		int formIndex=(int) formID;	
+		
+		FormSegmentImple formSegmentImple=new FormSegmentImple();
+	    FormFieldImpl formFieldImpl=new FormFieldImpl();  
+		
+		String addSegment[]=request.getParameterValues("addSegment");		
+		String addQuestion=request.getParameter("addQuestion");
+		
+		//if(addSegment==null){
+			String segmentId[]=request.getParameterValues("segmentId");
+	        String segmentName[]=request.getParameterValues("segmentName");
+	        String segmentDescription[]=request.getParameterValues("segmentDescription");
+	        
+	        int segmentIdInt[] = new int[segmentId.length];int a=0;
+	        for(String stringSegmentId: segmentId){
+	        	segmentIdInt[a++]=Integer.parseInt(stringSegmentId);    	
+	        }
+	        for (int i=0;i<segmentId.length;i++){
+				
+				/*request.setAttribute("segmentID", segmentID);
+				request.setAttribute("segment_labelName", segmentlabelName);
+				request.setAttribute("segment_labelDescription", segmentlabelDescription);*/
+				
+				
+				formSegmentImple.addformSegment(formIndex, segmentIdInt[i], segmentName[i], segmentDescription[i]);
+				
+				//formSegmentImple.addformSegment(segmentID,segmentlabelName, segmentlabelDescription);
+				//requestDispatcher=request.getRequestDispatcher("second.jsp");
+				//requestDispatcher.forward(request, response);
+				
+			}
+	        
+		//} if(addQuestion==null){
+			String question_segmentId[]=request.getParameterValues("question_segmentId");
+	        String questionName[]=request.getParameterValues("QuestionName");
+	        String questionType[]=request.getParameterValues("questionType");
+	        String isPredefine[]=request.getParameterValues("isPredefineValue");
+	        String preDefineValues[]=request.getParameterValues("answerArray[]");	        
+	       
+	        
+	        int question_segmentIdInt[]=new int[question_segmentId.length];int b=0;
+	        for(String stringQuestionSegmentId:question_segmentId){
+	        	question_segmentIdInt[b++]=Integer.parseInt(stringQuestionSegmentId);
+	        }
+	        
+	        int qid=0;
+	        for(int i=0;i<questionName.length;i++){
+				// formFieldImpl.addformField(formIndex,question_segmentIdInt[i], questionName[i], questionType[i], isPredefine[i],preDefineValues[i]);	
+				// formFieldImpl.addformField(formIndex, question_segmentIdInt[i],  questionName[i], questionType[i], isPredefine[i]);
+	        		qid=formFieldImpl.addformField(formIndex, question_segmentIdInt[i], questionName[i], questionType[i], isPredefine[i]);
+	        		try {
+							
+							JSONArray jsonArray=new JSONArray(preDefineValues);
+							formFieldImpl.addPredefineValues(qid, jsonArray.toString());
+							
+						} catch (Exception e) {
+							// TODO: handle exception
+							e.printStackTrace();
+						}
+	    	       
+	        }
+	       
+       
 		/*if(deleteSegment!=null){
 			try{
 				FormSegmentImple formSegmentImple=new FormSegmentImple();

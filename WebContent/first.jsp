@@ -5,8 +5,8 @@
 <%@page import="com.allianz.qportalapp.model.FormField"%>
 <%@page import="com.allianz.qportalapp.controller.FormSegmentImple"%>
 <%@page import="com.allianz.qportalapp.model.FormSegment"%>
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <%@ page import="java.util.List" %>
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="com.allianz.qportalapp.model.FormType" %>
@@ -14,7 +14,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Welcome Allianz</title>
 <link rel="stylesheet" href="css/bootstrap.css" type="text/css">
 <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css">
@@ -24,6 +24,10 @@
 
 
 <script type="text/javascript">
+
+window.onload=function(){
+	$(".show").hide();
+}
 
 function arrangeSno() 
     {
@@ -37,6 +41,9 @@ function arrangeSno()
 
  
 $(document).ready(function(){ 
+	
+
+	
 	$('#addSegment').click(function(){
        var sno=$('#segmentTable tr').length;
            trow= "<tr><td class='sNo'>"+sno+"</td>"+
@@ -67,13 +74,70 @@ $(document).ready(function(){
 		 "</select>"+
 		 "</td>"+		 
 		 "<td><label>Is there pre define values?</label></td>"+		 
-		 "<td><input type='radio' name='isPredefineValue' onclick='showPreValueYes()' value='yes' />yes<input type='radio' name='isPredefineValue' value='no' /></td>"+
-		 "<td><span id='responce'></span><div class='controls' id='show'><form><input type='text' name='text1'><input type='button' onclick='addInput()'/><input type='submit' name='add' value='submit'></form></div>"+		 
+		 "<td><select name='isPredefineValue' class='isPredefineValue'>"+
+			"<option value='c'>select</option>"+
+			"<option value='y'>yes</option>"+
+			"<option value='n'>no</option>"+
+			"</select></td>"+
+		 "<td>"+
+		 	"<div id='show'>"+
+			 	"<label>Add pre-define Answer</label>"+
+				    "<div class='multi-field-wrapper'>"+
+				      "<div class='multi-fields'>"+
+				        "<div class='multi-field'>"+
+				          "<input type='text' name='answerArray[]'>"+
+				          "<button type='button' class='remove-field'>Remove</button>"+
+				        "</div>"+
+				      "</div>"+
+				    "<button type='button' class='add-field' onclick='addNew()'>Add Answer</button>"+
+				 "</div>"+
+			 "</div>"+
+		 "</td>"+ 
 		 "<td><button type='button' class='removeQestionButton'>Remove</button></td></tr>";
+		 
         $('#segmentTableBody').append(trow);
 	 });
+	
+	
+	/* $('.isPredefineValue').click(function(){
+	//function showPreValueYes(){
+		
+	    $("input[type='radio']").change(function () {
+
+	        if ($(this).val() == 'yes') {
+	            $('#show').show();
+	        } else {
+	            $('#show').hide();
+	        }
+	    });
+	}); */
+	
+	$("select").change(function(){
+		$(this).find('option:selected').each(function(){
+			if($(this).attr('value')=='y'){
+				/*$(".box").not(".show").hide();*/
+				$('.show').show();
+			}
+			else $('.show').hide();
+		});
+	}).change();
+
+	
  }); 
-	 
+
+function addNew(){
+			$('.multi-field-wrapper').each(function() {
+			    var $wrapper = $('.multi-fields', this);
+			    //$(".add-field", $(this)).click(function(e) {
+			        $('.multi-field:first-child', $wrapper).clone(true).appendTo($wrapper).find('input').val('').focus();
+			    //});
+			    $('.multi-field .remove-field', $wrapper).click(function() {
+			        //if ($('.multi-field', $wrapper).length>0)
+			            $(this).parent('.multi-field').remove();
+			    });
+			});
+	}
+		 
 	$(document).on('click', 'button.removeSegmentButton', function () {
 	       $(this).closest('tr').remove();
 	       arrangeSno();
@@ -86,34 +150,6 @@ $(document).ready(function(){
 	     return false;
 	 });	
 	
-
-	function showPreValueYes(){
-		$("#show").hide();
-	    $("input[type='radio']").change(function () {
-
-	        if ($(this).val() == "yes") {
-	            $("#show").show();
-	        } else {
-	            $("#show").hide();
-	        }
-	    });
-		}
-	
-	$( document ).ready(function() {
-
-		$("#show").hide();
-		$("#show").prop('checked', false);
-	});
-
-	var countBox =1;
-	var boxName = 0;
-	function addInput()
-	{
-		var boxName="textBox"+countBox; 
-		document.getElementById('responce').innerHTML+='<br/><input type="text" id="'+boxName+'" value="'+boxName+'" "  /><br/>';
-	    countBox += 1;
-	}
- 
 	
 </script>
 </head>
@@ -144,8 +180,8 @@ $(document).ready(function(){
 	
 	<div>		
 		<br/>
-	    <input id="addSegment" type="button" value="Add Segment">
-	    <input id="addQuestion" type="button" value="Add Question">
+	    <input id="addSegment" type="button" value="Add Segment" name="addSegment">
+	    <input id="addQuestion" type="button" value="Add Question" name="addQuestion">
 	    <br><input type="submit" value="Submit">	
 	</div>
 	
